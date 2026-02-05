@@ -36,7 +36,6 @@
             margin: 0 auto;
         }
 
-        /* SIDEBAR */
         .sidebar {
             width: 250px;
             min-width: 250px;
@@ -53,7 +52,6 @@
         .sidebar ul li { margin: 12px 0; font-weight: bold; }
         .sidebar ul li a { color: white; text-decoration: none; display: flex; align-items: center; font-size: 15px; }
 
-        /* Кнопка повернення на головну в сайдбарі */
         .btn-back-home {
             display: block;
             margin-top: 20px;
@@ -65,9 +63,7 @@
             border-radius: 10px;
             font-size: 14px;
             font-weight: bold;
-            transition: 0.3s;
         }
-        .btn-back-home:hover { background: #1a252f; }
 
         .content-section { flex: 1; text-align: center; } 
 
@@ -116,6 +112,7 @@
             overflow: hidden;
             border-radius: 12px;
             margin-bottom: 12px;
+            cursor: zoom-in; /* Показуємо, що фото можна збільшити */
         }
         .product-card img { width: 100%; height: 100%; object-fit: contain; }
 
@@ -135,7 +132,6 @@
             font-size: 15px;
         }
 
-        /* КНОПКА ВГОРУ */
         #scrollTop {
             position: fixed;
             bottom: 30px;
@@ -150,23 +146,48 @@
             cursor: pointer;
             display: none;
             z-index: 1000;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            transition: 0.3s;
         }
-        #scrollTop:hover { transform: scale(1.1); }
+
+        /* МОДАЛКИ (Контакти та Фото) */
+        .modal-bg { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.85); 
+            z-index: 2000; 
+            justify-content: center; 
+            align-items: center; 
+        }
+        .modal-content { 
+            background: white; 
+            padding: 25px; 
+            border-radius: 20px; 
+            width: 85%; 
+            max-width: 340px; 
+            text-align: center; 
+            color: #333; 
+            position: relative; 
+        }
+        
+        /* СТИЛЬ ДЛЯ ВЕЛИКОГО ФОТО */
+        #fullImage { 
+            max-width: 90%; 
+            max-height: 90vh; 
+            border-radius: 10px; 
+            box-shadow: 0 0 20px rgba(255,255,255,0.2);
+            cursor: pointer;
+        }
 
         @media (max-width: 768px) {
             header { padding: 10px 15px; }
             .main-layout { flex-direction: column; padding: 15px; gap: 15px; }
             .sidebar { width: 100%; min-width: 100%; box-sizing: border-box; position: static; }
             .sidebar ul { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
-            .btn-back-home { margin-top: 15px; width: 100%; box-sizing: border-box; }
             .products-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-            #scrollTop { bottom: 20px; right: 20px; width: 45px; height: 45px; font-size: 20px; }
         }
-
-        .modal-bg { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; }
-        .modal-content { background: white; padding: 25px; border-radius: 20px; width: 85%; max-width: 340px; text-align: center; color: #333; position: relative; }
     </style>
 </head>
 <body>
@@ -215,6 +236,10 @@
     </div>
 </div>
 
+<div id="imageModal" class="modal-bg" onclick="closeModal('imageModal')">
+    <img id="fullImage" src="" alt="Full View">
+</div>
+
 <button id="scrollTop" onclick="goToTop()">↑</button>
 
 <script>
@@ -234,7 +259,7 @@
             const imgPath = `Images/${folder}/${f.id}.jpg`;
             container.innerHTML += `
                 <div class="product-card">
-                    <div class="img-container">
+                    <div class="img-container" onclick="viewImage('${imgPath}')">
                         <img src="${imgPath}" alt="${f.name}" onerror="this.src='Images/no-photo.jpg'">
                     </div>
                     <div class="item-name">Технопланктон (${f.name}) SK ${weightSuffix}</div>
@@ -252,8 +277,13 @@
 
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    
+    // Функція збільшення фото
+    function viewImage(src) {
+        document.getElementById('fullImage').src = src;
+        openModal('imageModal');
+    }
 
-    // Кнопка вгору
     const scrollBtn = document.getElementById("scrollTop");
     window.onscroll = function() {
         if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
@@ -262,9 +292,7 @@
             scrollBtn.style.display = "none";
         }
     };
-    function goToTop() {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    function goToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 </script>
 </body>
 </html>
