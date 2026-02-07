@@ -23,7 +23,7 @@
     <style>
         /* БАЗОВІ СТИЛІ */
         body { margin: 0; padding: 0; font-family: Arial, sans-serif; background: url('Images/5.jpg') no-repeat center center fixed; background-size: cover; color: white; min-height: 100vh; }
-        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 50px; background: #2c3e50; box-shadow: 0 2px 5px rgba(0,0,0,0.5); position: sticky; top: 0; z-index: 1001; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 50px; background: #000000; box-shadow: 0 2px 5px rgba(0,0,0,0.5); position: sticky; top: 0; z-index: 1001; }
         .logo { font-size: 20px; font-weight: bold; }
         nav { display: flex; align-items: center; gap: 20px; }
         nav a { color: white; text-decoration: none; cursor: pointer; font-size: 14px; font-weight: bold; transition: 0.3s; }
@@ -34,18 +34,18 @@
         
         .main-layout { display: flex; flex-direction: row; padding: 30px 50px; gap: 30px; max-width: 1600px; margin: 0 auto; }
         .sidebar { width: 250px; min-width: 250px; background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(10px); border-radius: 20px; padding: 20px; height: fit-content; position: sticky; top: 80px; z-index: 100; }
-        .sidebar h3 { color: #34495e; margin: 20px 0 10px 0; }
+        .sidebar h3 { color: #000000; margin: 20px 0 10px 0; }
         .sidebar ul { list-style: none; padding: 0; margin: 0; }
         .sidebar ul li { margin: 12px 0; font-weight: bold; }
-        .sidebar ul li a { color: #34495e; text-decoration: underline; font-size: 15px; }
+        .sidebar ul li a { color: #000000; text-decoration: underline; font-size: 15px; }
         
-        .btn-review-sidebar { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px; margin-top: 10px; background: #34495e; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; text-decoration: none; text-align: center; font-size: 13px; transition: 0.3s; }
-        .btn-review-sidebar:hover { background: #2c3e50; transform: scale(1.02); }
+        .btn-review-sidebar { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px; margin-top: 10px; background: #000000; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; text-decoration: none; text-align: center; font-size: 13px; transition: 0.3s; }
+        .btn-review-sidebar:hover { background: #333333; transform: scale(1.02); }
 
         .content-section { flex: 1; text-align: center; } 
         .main-title { background: white; color: #1a1a1a; display: inline-block; padding: 8px 30px; border-radius: 12px; font-weight: bold; font-size: 22px; margin-bottom: 25px; }
         
-        .category-header { background: #34495e; color: white; padding: 12px; border-radius: 10px; margin: 50px 0 20px 0; font-size: 18px; font-weight: bold; text-transform: uppercase; width: 100%; box-sizing: border-box; scroll-margin-top: 180px; }
+        .category-header { background: #000000; color: white; padding: 12px; border-radius: 10px; margin: 50px 0 20px 0; font-size: 18px; font-weight: bold; text-transform: uppercase; width: 100%; box-sizing: border-box; scroll-margin-top: 180px; }
         
         .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; margin-bottom: 30px; }
         .product-card { background: rgba(200, 255, 200, 0.4); backdrop-filter: blur(5px); border-radius: 15px; padding: 15px; text-align: center; color: #1a1a1a; box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; flex-direction: column; min-height: 640px; border: 1px solid rgba(255, 255, 255, 0.3); position: relative; box-sizing: border-box; }
@@ -64,8 +64,9 @@
         
         .btn-buy { background: #e67e22; }
         .btn-contact-item { background: #27ae60; }
-        .btn-desc { background: #34495e; }
-        .btn-submit-order { background: #2c3e50; font-size: 16px; margin-top: 10px; padding: 15px; }
+        .btn-desc { background: #000000; }
+        .btn-submit-order { background: #000000; font-size: 16px; margin-top: 10px; padding: 15px; }
+        .btn-submit-order:disabled { background: #7f8c8d; cursor: not-allowed; }
 
         .toast-msg { position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: #27ae60; padding: 8px 15px; border-radius: 10px; font-size: 13px; font-weight: bold; z-index: 3000; box-shadow: 0 4px 15px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 10px; animation: fadeIn 0.3s; border: 1px solid #27ae60; pointer-events: none; width: max-content; }
         .toast-error { color: #e74c3c; border-color: #e74c3c; }
@@ -73,7 +74,6 @@
         .modal-bg { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; padding: 10px; box-sizing: border-box; }
         .modal-content { background: white; padding: 25px; border-radius: 20px; width: 100%; max-width: 500px; text-align: center; color: #333; position: relative; max-height: 90vh; overflow-y: auto; }
         
-        /* Виправлення лайтбоксу для гарантованого закриття при кліку на фон */
         #imageLightbox { cursor: pointer; }
         #imageLightbox .modal-content-img { background: none; border: none; display: flex; justify-content: center; align-items: center; width: auto; max-width: 90vw; }
         #lightboxImg { max-width: 100%; max-height: 85vh; border-radius: 10px; border: 3px solid white; box-shadow: 0 0 20px rgba(0,0,0,0.5); cursor: default; }
@@ -83,7 +83,7 @@
 
         .cart-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee; font-size: 13px; gap: 10px; flex-wrap: wrap; }
         .qty-controls { display: flex; align-items: center; gap: 8px; background: #f8f9fa; padding: 4px 8px; border-radius: 6px; }
-        .qty-btn { background: #34495e; color: white; border: none; width: 24px; height: 24px; border-radius: 4px; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; }
+        .qty-btn { background: #000000; color: white; border: none; width: 24px; height: 24px; border-radius: 4px; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; }
         .remove-item { color: #c0392b; cursor: pointer; font-size: 18px; margin-left: 10px; }
         .clear-cart-btn { background: none; border: 1px solid #c0392b; color: #c0392b; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; margin-top: 10px; font-weight: bold; }
 
@@ -212,6 +212,7 @@
             <label>Email (необов'язково):</label>
             <input type="email" id="client-email" class="cart-input" placeholder="example@gmail.com">
         </div>
+        <div id="rate-limit-msg" style="color:red; font-size:12px; margin-bottom:10px; display:none;"></div>
         <button class="btn-submit-order" id="submit-order-btn" onclick="sendOrderEmail()">ПІДТВЕРДИТИ ЗАМОВЛЕННЯ</button>
         <div class="privacy-notice">«Натискаючи кнопку, ви погоджуєтесь на обробку персональних даних».</div>
     </div>
@@ -271,6 +272,36 @@
         {id:'malina', name:'Малина'}, {id:'med', name:'Мед'}, {id:'probimat', name:'Пробімат'}
     ];
 
+    // ЗАХИСТ ВІД СПАМУ (2 замовлення на 10 хвилин)
+    function checkRateLimit() {
+        const now = Date.now();
+        const tenMinutes = 10 * 60 * 1000;
+        let history = JSON.parse(localStorage.getItem('orderHistory')) || [];
+        history = history.filter(timestamp => (now - timestamp) < tenMinutes);
+        localStorage.setItem('orderHistory', JSON.stringify(history));
+
+        const submitBtn = document.getElementById('submit-order-btn');
+        const msg = document.getElementById('rate-limit-msg');
+
+        if (history.length >= 2) {
+            const timeLeft = Math.ceil((tenMinutes - (now - history[0])) / 60000);
+            submitBtn.disabled = true;
+            msg.innerText = `Ви перевищили ліміт замовлень. Спробуйте через ${timeLeft} хв.`;
+            msg.style.display = 'block';
+            return false;
+        } else {
+            submitBtn.disabled = false;
+            msg.style.display = 'none';
+            return true;
+        }
+    }
+
+    function recordOrder() {
+        let history = JSON.parse(localStorage.getItem('orderHistory')) || [];
+        history.push(Date.now());
+        localStorage.setItem('orderHistory', JSON.stringify(history));
+    }
+
     function handleShippingChange() {
         const method = document.getElementById('shipping-method').value;
         const details = document.getElementById('delivery-details');
@@ -323,7 +354,10 @@
 
     function removeFromCart(name) { cart = cart.filter(item => item.name !== name); updateCartUI(); openCart(); }
     function clearCart() { if (confirm("Очистити кошик?")) { cart = []; updateCartUI(); openCart(); } }
-    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+    function openModal(id) { 
+        document.getElementById(id).style.display = 'flex'; 
+        if(id === 'cartModal') checkRateLimit();
+    }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
     function openImage(src) { document.getElementById('lightboxImg').src = src; openModal('imageLightbox'); }
 
@@ -353,6 +387,8 @@
     }
 
     function sendOrderEmail() {
+        if (!checkRateLimit()) return;
+
         const name = document.getElementById('client-name').value.trim();
         const phone = document.getElementById('client-phone').value.trim();
         const shipping = document.getElementById('shipping-method').value;
@@ -377,6 +413,7 @@
             from_name: name, client_phone: phone, order_details: details, total_sum: total, client_email: document.getElementById('client-email').value
         }).then(() => { 
             gtag('event', 'purchase', { 'value': parseFloat(total), 'currency': 'UAH' });
+            recordOrder();
             cart = []; updateCartUI(); closeModal('cartModal'); openModal('successModal');
         }).catch(() => showPopup("Помилка відправки!", submitBtn, true));
     }
@@ -438,6 +475,7 @@
         sCont.innerHTML += createCard('Images/snasti/rezinka.jpg', 'Резинка рибальська 20м (Ø 3мм)', 70, null, 0, `Резинка рибальська. Довжина: 20м. діаметр Ø : 3мм. Розтягується до 60м. Колір: зелений. тел.:+38(097)3348667, +38(093)2181263${emailInfo}`);
         
         updateCartUI();
+        setInterval(checkRateLimit, 30000); // Оновлення статусу кнопки щопівхвилини
     };
 </script>
 </body>
