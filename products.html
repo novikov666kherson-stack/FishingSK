@@ -64,7 +64,6 @@
         .btn-contact-item { background: #e67e22; }
         .btn-submit-order { background: #2c3e50; font-size: 16px; margin-top: 10px; padding: 15px; }
 
-        /* Красиві спливаючі повідомлення */
         .toast-msg { position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: #27ae60; padding: 8px 15px; border-radius: 10px; font-size: 13px; font-weight: bold; z-index: 3000; box-shadow: 0 4px 15px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 10px; animation: fadeIn 0.3s; border: 1px solid #27ae60; pointer-events: none; width: max-content; }
         .toast-error { color: #e74c3c; border-color: #e74c3c; }
         @keyframes fadeIn { from { opacity: 0; bottom: 30px; } to { opacity: 1; bottom: 50px; } }
@@ -186,6 +185,16 @@
     </div>
 </div>
 
+<div id="successModal" class="modal-bg" style="z-index: 5000;">
+    <div class="modal-content" style="max-width: 400px; padding: 40px 20px;">
+        <span style="position:absolute; right:15px; top:10px; cursor:pointer; font-size:35px; font-weight:bold; color:#333;" onclick="closeModal('successModal')">&times;</span>
+        <div style="font-size: 50px; margin-bottom: 15px;">✅</div>
+        <h2 style="color: #27ae60; margin-bottom: 15px;">Дякуємо за Ваше замовлення!</h2>
+        <p style="font-size: 16px; line-height: 1.5; color: #333;">Ми з Вами зв'яжемось у найближчий час!</p>
+        <button class="btn-buy" style="margin-top: 20px; width: 100%;" onclick="closeModal('successModal')">Зрозуміло</button>
+    </div>
+</div>
+
 <div id="descModal" class="modal-bg">
     <div class="modal-content">
         <span style="position:absolute; right:15px; top:10px; cursor:pointer; font-size:24px;" onclick="closeModal('descModal')">&times;</span>
@@ -250,16 +259,13 @@
         window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
-    // Функція для створення красивого повідомлення
     function showPopup(text, targetElement, isError = false) {
         const existing = targetElement.parentElement.querySelector('.toast-msg');
         if (existing) existing.remove();
-
         const toast = document.createElement('div');
         toast.className = 'toast-msg' + (isError ? ' toast-error' : '');
         toast.innerHTML = `<span>${text}</span>`;
         targetElement.parentElement.appendChild(toast);
-        
         setTimeout(() => { 
             toast.style.opacity = '0';
             toast.style.transition = '0.5s';
@@ -302,6 +308,10 @@
 
     window.onclick = function(event) {
         if (event.target.classList.contains('modal-bg')) {
+            const successM = document.getElementById('successModal');
+            // Не закриваємо вікно успіху кліком по фону, щоб користувач точно прочитав (як ви просили - тільки хрестик)
+            if (event.target === successM) return;
+            
             const modals = document.getElementsByClassName('modal-bg');
             for (let i = 0; i < modals.length; i++) { modals[i].style.display = "none"; }
         }
@@ -354,11 +364,10 @@
             from_name: nameInput.value, client_phone: phoneInput.value, order_details: details, total_sum: total, client_email: document.getElementById('client-email').value
         }).then(() => { 
             gtag('event', 'purchase', { 'value': parseFloat(total), 'currency': 'UAH' });
-            showPopup("Замовлення надіслано!", submitBtn);
-            setTimeout(() => {
-                cart = []; updateCartUI(); 
-                closeModal('cartModal');
-            }, 1000);
+            cart = []; 
+            updateCartUI(); 
+            closeModal('cartModal'); // Закриваємо кошик
+            openModal('successModal'); // ВІДКРИВАЄМО ВІКНО ПОДЯКИ
         }).catch(() => {
             showPopup("Помилка відправки!", submitBtn, true);
         });
