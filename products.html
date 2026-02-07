@@ -31,13 +31,20 @@
         #cart-count { background: #c0392b; color: white; border-radius: 50%; padding: 2px 7px; font-size: 12px; margin-left: 8px; }
         
         .main-layout { display: flex; flex-direction: row; padding: 30px 50px; gap: 30px; max-width: 1600px; margin: 0 auto; }
-        .sidebar { width: 250px; min-width: 250px; background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(10px); border-radius: 20px; padding: 20px; height: fit-content; position: sticky; top: 80px; z-index: 900; }
-        .sidebar h3 { color: #34495e; margin: 20px 0 10px 0; }
+        
+        /* Сайдбар та його блоки */
+        .sidebar { width: 250px; min-width: 250px; display: flex; flex-direction: column; gap: 20px; }
+        .sidebar-block { background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(10px); border-radius: 20px; padding: 20px; height: fit-content; }
+        
+        /* Закріплення навігації на ПК */
+        .sticky-nav { position: sticky; top: 80px; z-index: 900; }
+
+        .sidebar h3 { color: #34495e; margin: 0 0 10px 0; }
         .sidebar ul { list-style: none; padding: 0; margin: 0; }
         .sidebar ul li { margin: 12px 0; font-weight: bold; }
         .sidebar ul li a { color: #34495e; text-decoration: underline; font-size: 15px; }
         
-        .btn-review-sidebar { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px; margin-top: 10px; background: #34495e; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; text-decoration: none; text-align: center; font-size: 13px; transition: 0.3s; }
+        .btn-review-sidebar { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px; margin-top: 10px; background: #34495e; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; text-decoration: none; text-align: center; font-size: 13px; transition: 0.3s; box-sizing: border-box; }
         .btn-review-sidebar:hover { background: #2c3e50; transform: scale(1.02); }
 
         .content-section { flex: 1; text-align: center; } 
@@ -103,15 +110,19 @@
             .cart-btn-header { padding: 5px 10px; font-size: 11px; }
 
             .main-layout { flex-direction: column; padding: 15px; } 
-            .sidebar { 
-                width: 100%; 
+            .sidebar { width: 100%; }
+            
+            /* Блок з відгуками на мобільних НЕ закріплений */
+            .sidebar-block { border-radius: 20px; }
+
+            /* Блок навігації на мобільних ТЕПЕР закріплений */
+            .sticky-nav { 
                 position: sticky; 
-                top: 50px; /* Фіксується під шапкою */
+                top: 45px; 
                 z-index: 999; 
                 border-radius: 0 0 20px 20px;
-                padding: 10px;
-                box-sizing: border-box;
-                max-height: 40vh; /* Щоб не займало весь екран на малих телефонах */
+                padding: 10px 20px;
+                max-height: 50vh;
                 overflow-y: auto;
             } 
             .products-grid { grid-template-columns: 1fr 1fr; gap: 10px; } 
@@ -133,20 +144,25 @@
 
 <div class="main-layout">
     <aside class="sidebar">
-        <h3>Навігація:</h3>
-        <ul>
-            <li><a href="#w80">📦 Планктон SK 80г</a></li>
-            <li><a href="#w110">📦 Планктон SK 110г</a></li>
-            <li><a href="#w140">📦 Планктон SK 140г</a></li>
-            <li><a href="#geizer">📦 Гейзер SK 140г</a></li>
-            <li><a href="#makuha">📦 Макуха SK 80г</a></li>
-            <li><a href="#kasha">📦 Каші та прикормки</a></li>
-            <li><a href="#poplavki">📦 Поплавці SK (XXXL)</a></li>
-            <li><a href="#snasti">📦 Рибальські снасті</a></li>
-        </ul>
-        <h3 style="margin-top:25px;">Відгуки:</h3>
-        <a href="vidguk.html" class="btn-review-sidebar">✍️ Залишити відгук</a>
-        <a href="vidguk.html" class="btn-review-sidebar">💬 Див. Усі відгуки</a>
+        <div class="sidebar-block">
+            <h3>Відгуки:</h3>
+            <a href="vidguk.html" class="btn-review-sidebar">✍️ Залишити відгук</a>
+            <a href="vidguk.html" class="btn-review-sidebar">💬 Див. Усі відгуки</a>
+        </div>
+
+        <div class="sidebar-block sticky-nav">
+            <h3>Навігація:</h3>
+            <ul>
+                <li><a href="#w80">📦 Планктон SK 80г</a></li>
+                <li><a href="#w110">📦 Планктон SK 110г</a></li>
+                <li><a href="#w140">📦 Планктон SK 140г</a></li>
+                <li><a href="#geizer">📦 Гейзер SK 140г</a></li>
+                <li><a href="#makuha">📦 Макуха SK 80г</a></li>
+                <li><a href="#kasha">📦 Каші та прикормки</a></li>
+                <li><a href="#poplavki">📦 Поплавці SK (XXXL)</a></li>
+                <li><a href="#snasti">📦 Рибальські снасті</a></li>
+            </ul>
+        </div>
     </aside>
 
     <main class="content-section">
