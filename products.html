@@ -106,24 +106,28 @@
             
             .main-layout { flex-direction: column; padding: 15px; gap: 15px; }
             
-            /* На мобільних сайдбар не фіксується повністю */
-            .sidebar { width: 100%; min-width: 0; position: static; box-sizing: border-box; }
+            .sidebar { width: 100%; min-width: 0; position: static; box-sizing: border-box; padding: 10px; }
             
-            /* ФІКСОВАНИЙ СПИСОК КАТЕГОРІЙ — ВИПРАВЛЕНО (додано max-height та overflow) */
-            .sidebar ul { 
-                position: sticky; 
-                top: 60px; 
-                z-index: 900; 
-                background: rgba(255, 255, 255, 0.95); 
-                padding: 10px; 
-                border-radius: 10px; 
-                max-height: 40vh; 
-                overflow-y: auto; 
-                box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            /* Навігація на телефоні: закріплюється зверху і має власний скрол */
+            .sidebar-nav-container {
+                position: sticky;
+                top: 60px; /* Відступ від хедеру */
+                z-index: 999;
+                background: rgba(255, 255, 255, 0.95);
+                border-radius: 12px;
+                padding: 10px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             }
 
+            .sidebar ul { 
+                max-height: 180px; /* Обмежуємо висоту списку, щоб було зручно гортати */
+                overflow-y: scroll; /* Примусовий скрол */
+                -webkit-overflow-scrolling: touch; 
+                display: block;
+            }
+            .sidebar ul li { padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
+
             .main-title { font-size: 18px; padding: 8px 15px; width: 100%; box-sizing: border-box; }
-            
             .products-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
             .product-card { min-height: auto; padding: 10px; }
             .img-container { height: 140px; }
@@ -157,21 +161,23 @@
 
 <div class="main-layout">
     <aside class="sidebar">
-        <h3 style="margin-top:0;">Відгуки:</h3>
+        <h3 style="margin-top:0; color:#34495e;">Відгуки:</h3>
         <a href="vidguk.html" class="btn-review-sidebar">✍️ Залишити відгук</a>
-        <a href="vidguk.html" class="btn-review-sidebar">💬 Див. Усі відгуки</a>
+        <a href="vidguk.html" class="btn-review-sidebar" style="margin-bottom:15px;">💬 Див. Усі відгуки</a>
 
-        <h3 style="margin-top:25px;">Навігація:</h3>
-        <ul>
-            <li><a href="#w80">📦 Планктон SK 80г</a></li>
-            <li><a href="#w110">📦 Планктон SK 110г</a></li>
-            <li><a href="#w140">📦 Планктон SK 140г</a></li>
-            <li><a href="#geizer">📦 Гейзер SK 140г</a></li>
-            <li><a href="#makuha">📦 Макуха SK 80г</a></li>
-            <li><a href="#kasha">📦 Каші та прикормки</a></li>
-            <li><a href="#poplavki">📦 Поплавці SK (XXXL)</a></li>
-            <li><a href="#snasti">📦 Рибальські снасті</a></li>
-        </ul>
+        <div class="sidebar-nav-container">
+            <h3 style="margin:0 0 10px 0; color:#34495e; font-size:16px;">Навігація:</h3>
+            <ul>
+                <li><a href="#w80">📦 Планктон SK 80г</a></li>
+                <li><a href="#w110">📦 Планктон SK 110г</a></li>
+                <li><a href="#w140">📦 Планктон SK 140г</a></li>
+                <li><a href="#geizer">📦 Гейзер SK 140г</a></li>
+                <li><a href="#makuha">📦 Макуха SK 80г</a></li>
+                <li><a href="#kasha">📦 Каші та прикормки</a></li>
+                <li><a href="#poplavki">📦 Поплавці SK (XXXL)</a></li>
+                <li><a href="#snasti">📦 Рибальські снасті</a></li>
+            </ul>
+        </div>
     </aside>
 
     <main class="content-section">
@@ -182,10 +188,8 @@
         <div class="products-grid" id="container110"></div>
         <div id="w140" class="category-header">ТЕХНОПЛАНКТОН SK 140г(флуоро) — від Олега Карпова</div>
         <div class="products-grid" id="container140"></div>
-        
         <div id="geizer" class="category-header">Технопланктон(ГЕЙЗЕР) SK (всі смаки) (флуоро) від Олега Карпова</div>
         <div class="products-grid" id="containerGeizer"></div>
-
         <div id="makuha" class="category-header">Макуха SK 80г — від Олега Карпова</div>
         <div class="products-grid" id="containerMakuha"></div>
         <div id="kasha" class="category-header">Каші, прикормки, приманки</div>
@@ -207,9 +211,7 @@
         <h2>🛒 Ваш кошик</h2>
         <div id="cart-items-list"></div>
         <div id="cart-controls" style="margin-top: 10px;"><button class="clear-cart-btn" onclick="clearCart()">🗑️ Очистити кошик</button></div>
-        
         <div style="font-size:18px; font-weight:bold; margin: 15px 0;">Разом: <span id="cart-total-sum">0</span> грн</div>
-
         <div id="order-form" style="text-align: left; background: #f4f4f4; padding: 15px; border-radius: 12px; margin-bottom: 15px; position: relative;">
             <label><span class="star-red">*</span> Ваше ім'я:</label>
             <input type="text" id="client-name" class="cart-input" placeholder="Введіть ім'я">
@@ -220,11 +222,9 @@
             <label>Email (необов'язково):</label>
             <input type="email" id="client-email" class="cart-input" placeholder="example@gmail.com">
         </div>
-        
         <div style="position: relative;">
             <button class="btn-submit-order" id="submit-order-btn" onclick="sendOrderEmail()">ПІДТВЕРДИТИ ЗАМОВЛЕННЯ</button>
         </div>
-        
         <div class="privacy-notice">
             «Натискаючи кнопку, ви погоджуєтесь на обробку персональних даних виключно для оформлення замовлення».
         </div>
