@@ -111,13 +111,13 @@
             nav a { font-size: 12px; }
             .cart-btn-header { padding: 6px 10px; font-size: 12px; }
 
-            .main-layout { flex-direction: column; padding: 10px; gap: 0; }
+            .main-layout { flex-direction: column; padding: 0 10px; gap: 0; }
             
             .sidebar { 
                 width: 100%; 
                 min-width: 0; 
                 position: sticky; 
-                top: 100%; /* ПРИВ'ЯЗКА ПРЯМО ДО НИЖНЬОГО КРАЮ HEADER */
+                top: 0; /* ФІКСАЦІЯ ПІД ШАПКОЮ */
                 left: 0;
                 z-index: 1000; 
                 padding: 5px !important; 
@@ -125,15 +125,14 @@
                 border-radius: 0 0 10px 10px; 
                 box-shadow: 0 4px 12px rgba(0,0,0,0.3); 
                 box-sizing: border-box; 
-                margin-top: 0; 
-                margin-bottom: 20px;
+                margin: 0; 
             }
             .sidebar h3, .btn-review-sidebar { display: none; } 
-            .sidebar ul { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; padding: 0; margin: 0; }
-            .sidebar ul li { margin: 0; background: #e9ecef; padding: 6px 2px; border-radius: 5px; text-align: center; border: 1px solid #ddd; }
+            .sidebar ul { display: grid; grid-template-columns: repeat(4, 25%); gap: 0; padding: 0; margin: 0; width: 100%; }
+            .sidebar ul li { margin: 0; background: #e9ecef; padding: 8px 1px; text-align: center; border: 0.5px solid #ddd; }
             .sidebar ul li a { font-size: 9px; text-decoration: none; color: #000; display: block; font-weight: bold; line-height: 1.1; }
 
-            .content-section { padding-top: 10px; } 
+            .content-section { padding-top: 20px; } 
             .main-title { font-size: 18px; padding: 6px 20px; margin-bottom: 15px; }
             .category-header { font-size: 14px; padding: 10px; margin: 30px 0 15px 0; }
             
@@ -155,7 +154,7 @@
 
 <button onclick="scrollToTop()" id="btnUp" title="Нагору">▲</button>
 
-<header>
+<header id="mainHeader">
     <div class="logo">Технопланктон SK</div>
     <nav>
         <a href="index.html">Головна</a>
@@ -486,6 +485,12 @@
     function openDesc(t, d) { document.getElementById('descTitle').innerText = t; document.getElementById('descText').innerText = d; openModal('descModal'); }
 
     window.onload = () => {
+        // Додатковий скрипт для автоматичного вирівнювання меню під шапкою на мобілках
+        if (window.innerWidth <= 768) {
+            const h = document.getElementById('mainHeader').offsetHeight;
+            document.querySelector('.sidebar').style.top = h + 'px';
+        }
+
         const configs = [
             { id: 'container80', folder: '80g', w: '80г(флуоро)', p: 120, o: 60, q: 50, t: 3 },
             { id: 'container110', folder: '110g', w: '110г(флуоро)', p: 160, o: 80, q: 37, t: 4 },
