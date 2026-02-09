@@ -6,110 +6,69 @@
     <title>Галерея - Технопланктон SK</title>
     <style>
         body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
+            margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif;
             background: url('Images/5.jpg') no-repeat center center fixed;
-            background-size: cover;
-            color: white;
-            min-height: 100vh;
+            background-size: cover; color: white; min-height: 100vh;
         }
 
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 50px;
-            background: #000000;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-            position: sticky;
-            top: 0;
-            z-index: 1001;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 50px; background: #000; position: sticky; top: 0; z-index: 1001;
         }
 
-        .logo { font-size: 20px; font-weight: bold; }
-        nav { display: flex; align-items: center; gap: 20px; }
-        nav a { color: white; text-decoration: none; font-size: 14px; font-weight: bold; transition: 0.3s; }
+        .logo { font-size: 18px; font-weight: bold; color: #e67e22; }
+        nav a { color: white; text-decoration: none; margin-left: 20px; font-size: 14px; font-weight: bold; transition: 0.3s; }
         nav a:hover { color: #e67e22; }
 
         .container {
-            max-width: 1400px;
-            margin: 30px auto;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 25px;
-            backdrop-filter: blur(15px);
-            text-align: center;
+            max-width: 1300px; margin: 20px auto; padding: 15px;
+            background: rgba(0, 0, 0, 0.85); border-radius: 20px;
+            backdrop-filter: blur(10px); text-align: center;
         }
 
-        h1 { margin-bottom: 10px; color: #e67e22; }
+        h1 { font-size: 22px; color: #e67e22; margin-bottom: 15px; }
 
-        /* Сітка з малими вікнами */
+        /* ЕКСТРЕМАЛЬНО МАЛЕНЬКІ ВІКОНЦЯ */
         .video-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 15px;
-            padding: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); /* Ще менше */
+            gap: 10px; padding: 5px;
         }
 
         .video-card {
-            background: #111;
-            border-radius: 12px;
-            overflow: hidden;
+            background: #111; border-radius: 8px; overflow: hidden;
             border: 1px solid rgba(230, 126, 34, 0.3);
-            cursor: pointer;
-            transition: 0.3s;
-            position: relative;
-            aspect-ratio: 9 / 16;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            cursor: pointer; transition: 0.2s;
+            aspect-ratio: 9 / 16; position: relative;
         }
 
         .video-card:hover {
-            transform: scale(1.03);
-            border-color: #e67e22;
-            box-shadow: 0 0 15px rgba(230, 126, 34, 0.4);
+            transform: scale(1.05); border-color: #e67e22; z-index: 10;
         }
 
+        /* Обкладинка відео */
         .video-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            width: 100%; height: 100%; object-fit: cover;
+            display: block; opacity: 0.9;
         }
 
-        /* Значок Play поверх обкладинки */
-        .play-btn {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            background: rgba(230, 126, 34, 0.9);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 20px;
-            color: white;
-            z-index: 2;
+        /* Значок поверх */
+        .play-overlay {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: rgba(230, 126, 34, 0.7); border-radius: 50%;
+            width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
+            font-size: 12px; pointer-events: none;
         }
 
         #btnUp {
-            display: none;
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 99;
-            background: #e67e22;
-            color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 50%;
-            cursor: pointer;
+            display: none; position: fixed; bottom: 20px; right: 20px;
+            background: #e67e22; color: white; border: none;
+            width: 40px; height: 40px; border-radius: 50%; cursor: pointer;
         }
 
-        @media (max-width: 768px) {
-            header { padding: 10px 15px; }
-            .video-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+        @media (max-width: 600px) {
+            .video-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
+            header { padding: 10px 20px; }
         }
     </style>
 </head>
@@ -124,17 +83,13 @@
 </header>
 
 <div class="container">
-    <h1>Відео-Галерея</h1>
-    <p style="opacity: 0.7;">Всі відео Олега Карпова про рибалку та товари</p>
-    
-    <div class="video-grid" id="main-container">
-        </div>
+    <h1>Всі відео Олега Карпова</h1>
+    <div class="video-grid" id="videoContainer"></div>
 </div>
 
 <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" id="btnUp">▲</button>
 
 <script>
-    // Повний список ID всіх ваших відео
     const ids = [
         "7550211779876441349", "7524651976810908984", "7407357630190030085", "7603470428161494290",
         "7596940473927879992", "7596610791697059128", "7595829589738310924", "7595604575436934411",
@@ -168,16 +123,20 @@
         "7542911450658934072", "7542903424485051653", "7542847774685940997"
     ];
 
-    const container = document.getElementById('main-container');
+    const container = document.getElementById('videoContainer');
 
     ids.forEach(id => {
         const card = document.createElement('div');
         card.className = 'video-card';
-        // Показуємо обкладинку. При кліку відкриваємо відео в TikTok
+        
+        // Використовуємо проксі для завантаження картинки
+        const proxyUrl = `https://images.weserv.nl/?url=https://www.tiktok.com/api/img/?itemId=${id}`;
+        
         card.innerHTML = `
-            <img src="https://www.tiktok.com/api/img/?itemId=${id}&location=0" loading="lazy" alt="ТікТок Відео">
-            <div class="play-btn">▶</div>
+            <img src="${proxyUrl}" loading="lazy" alt="Обкладинка">
+            <div class="play-overlay">▶</div>
         `;
+        
         card.onclick = () => window.open(`https://www.tiktok.com/video/${id}`, '_blank');
         container.appendChild(card);
     });
