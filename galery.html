@@ -6,7 +6,7 @@
     <title>Галерея - Технопланктон SK</title>
     <style>
         body {
-            margin: 0; padding: 0; font-family: Arial, sans-serif;
+            margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif;
             background: url('Images/5.jpg') no-repeat center center fixed;
             background-size: cover; color: white; min-height: 100vh;
         }
@@ -25,36 +25,43 @@
             backdrop-filter: blur(10px); text-align: center;
         }
 
-        /* ЕКСТРЕМАЛЬНО МАЛЕНЬКІ ВІКНА */
+        h1 { font-size: 22px; color: #e67e22; margin-bottom: 20px; }
+
+        /* НАЙМЕНШІ МОЖЛИВІ ВІКНА */
         .video-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Маленькі колонки */
-            gap: 10px; padding: 5px;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px; padding: 10px;
         }
 
         .video-card {
-            background: #000; border-radius: 10px; overflow: hidden;
+            background: #000; border-radius: 12px; overflow: hidden;
             border: 1px solid rgba(230, 126, 34, 0.3);
-            min-height: 260px; /* Дуже компактна висота */
-            position: relative;
+            min-height: 250px; position: relative;
+            transition: 0.3s;
         }
 
-        /* Стилізуємо стандартний ембед під маленький розмір */
+        .video-card:hover {
+            transform: scale(1.05); border-color: #e67e22; z-index: 10;
+        }
+
+        /* Стилізація під TikTok */
         .tiktok-embed {
             margin: 0 !important;
             padding: 0 !important;
             width: 100% !important;
             min-width: 100% !important;
+            height: 100% !important;
         }
 
         #btnUp {
             display: none; position: fixed; bottom: 20px; right: 20px;
             background: #e67e22; color: white; border: none;
-            width: 40px; height: 40px; border-radius: 50%; cursor: pointer;
+            width: 40px; height: 40px; border-radius: 50%; cursor: pointer; z-index: 1002;
         }
 
         @media (max-width: 600px) {
-            .video-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+            .video-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
             header { padding: 10px 20px; }
         }
     </style>
@@ -70,7 +77,7 @@
 </header>
 
 <div class="container">
-    <h1 style="font-size: 20px; color: #e67e22;">Галерея відео</h1>
+    <h1>Відеогалерея Олега Карпова</h1>
     <div class="video-grid" id="videoContainer">
         </div>
 </div>
@@ -80,7 +87,6 @@
 <script async src="https://www.tiktok.com/embed.js"></script>
 
 <script>
-    // Список ID ваших відео (частина для прикладу, додайте всі інші)
     const ids = [
         "7550211779876441349", "7524651976810908984", "7407357630190030085", "7603470428161494290",
         "7596940473927879992", "7596610791697059128", "7595829589738310924", "7595604575436934411",
@@ -116,19 +122,26 @@
 
     const container = document.getElementById('videoContainer');
 
-    // Функція створення карток
+    // Створюємо картки
     ids.forEach(id => {
         const card = document.createElement('div');
         card.className = 'video-card';
         card.innerHTML = `
             <blockquote class="tiktok-embed" 
                 data-video-id="${id}" 
-                style="max-width: 325px;min-width: 150px;">
+                style="width: 100%;">
                 <section></section>
             </blockquote>
         `;
         container.appendChild(card);
     });
+
+    // Оновлення віджетів для проявлення обкладинок
+    window.onload = function() {
+        if (window.ttEmbed) {
+            window.ttEmbed.init();
+        }
+    };
 
     window.onscroll = function() {
         const btn = document.getElementById("btnUp");
