@@ -74,9 +74,11 @@
         .modal-bg { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; padding: 10px; box-sizing: border-box; }
         .modal-content { background: white; padding: 25px; border-radius: 20px; width: 100%; max-width: 500px; text-align: center; color: #333; position: relative; max-height: 90vh; overflow-y: auto; }
         
+        /* ЛАЙТБОКС СТИЛІ */
         #imageLightbox { cursor: pointer; }
         #imageLightbox .modal-content-img { background: none; border: none; display: flex; justify-content: center; align-items: center; width: auto; max-width: 90vw; }
-        #lightboxImg { max-width: 100%; max-height: 85vh; border-radius: 10px; border: 3px solid white; box-shadow: 0 0 20px rgba(0,0,0,0.5); cursor: default; }
+        #lightboxImg { max-width: 100%; max-height: 85vh; border-radius: 10px; border: 3px solid white; box-shadow: 0 0 20px rgba(0,0,0,0.5); cursor: pointer; transition: 0.3s; }
+        #lightboxImg:hover { transform: scale(1.01); }
 
         .shipping-info-banner { background: #fff3cd; color: #856404; padding: 12px; border-radius: 10px; font-size: 13px; line-height: 1.4; border: 1px solid #ffeeba; margin-bottom: 15px; text-align: left; }
         .shipping-icon-mini { height: 18px; vertical-align: middle; margin: 0 3px; }
@@ -124,6 +126,7 @@
     <div class="logo">Технопланктон SK</div>
     <nav>
         <a href="index.html">Головна</a>
+        <a href="galery.html">Галерея</a> 
         <a onclick="openModal('contactModal')">Контакти</a>
         <div class="cart-btn-header" onclick="openCart()">🛒 Кошик <span id="cart-count">0</span></div>
     </nav>
@@ -193,9 +196,11 @@
         <div id="order-form" style="text-align: left; background: #f4f4f4; padding: 15px; border-radius: 12px; margin-bottom: 15px;">
             <label><span class="star-red">*</span> Ваше ім'я:</label>
             <input type="text" id="client-name" class="cart-input" placeholder="Введіть ім'я">
+            
             <label><span class="star-red">*</span> Телефон:</label>
             <input type="tel" id="client-phone" class="cart-input" value="+380" maxlength="13"
                    oninput="if(!this.value.startsWith('+380')) this.value = '+380'; this.value = '+380' + this.value.substring(4).replace(/[^\d]/g, '');">
+            
             <label><span class="star-red">*</span> Служба доставки:</label>
             <select id="shipping-method" class="cart-select" onchange="handleShippingChange()">
                 <option value="">Оберіть пошту...</option>
@@ -203,12 +208,20 @@
                 <option value="Ukrposhta">УкрПошта</option>
                 <option value="Meest">Meest Express</option>
             </select>
+
             <div id="delivery-details" style="display:none;">
                 <label><span class="star-red">*</span> Місто:</label>
                 <input type="text" id="client-city" class="cart-input" placeholder="Введіть місто">
                 <label><span class="star-red">*</span> № Відділення / Адреса:</label>
                 <input type="text" id="client-address" class="cart-input" placeholder="Наприклад: Відділення №1">
             </div>
+
+            <label><span class="star-red">*</span> Спосіб оплати:</label>
+            <select id="payment-method" class="cart-select">
+                <option value="Післяплата">Післяплата (на пошті)</option>
+                <option value="LiqPay">Онлайн-оплата (Visa/Mastercard/ApplePay)</option>
+            </select>
+
             <label>Email (необов'язково):</label>
             <input type="email" id="client-email" class="cart-input" placeholder="example@gmail.com">
         </div>
@@ -223,7 +236,7 @@
         <span style="position:absolute; right:15px; top:10px; cursor:pointer; font-size:35px;" onclick="closeModal('successModal')">&times;</span>
         <div style="font-size: 50px;">✅</div>
         <h2 style="color: #27ae60;">Дякуємо за Ваше замовлення!</h2>
-        <p>Ми з Вами зв'яжемось у найближчий час!</p>
+        <p id="success-msg-text">Ми з Вами зв'яжемось у найближчий час!</p>
         <button class="btn-submit-order" onclick="closeModal('successModal')">Зрозуміло</button>
     </div>
 </div>
@@ -239,7 +252,7 @@
 
 <div id="imageLightbox" class="modal-bg" onclick="handleBgClick(event)">
     <div class="modal-content-img">
-        <img id="lightboxImg" src="" onclick="event.stopPropagation()">
+        <img id="lightboxImg" src="" onclick="closeModal('imageLightbox')">
     </div>
 </div>
 
@@ -272,7 +285,6 @@
         {id:'malina', name:'Малина'}, {id:'med', name:'Мед'}, {id:'probimat', name:'Пробімат'}
     ];
 
-    // ЗАХИСТ ВІД СПАМУ (2 замовлення на 10 хвилин)
     function checkRateLimit() {
         const now = Date.now();
         const tenMinutes = 10 * 60 * 1000;
@@ -359,7 +371,12 @@
         if(id === 'cartModal') checkRateLimit();
     }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-    function openImage(src) { document.getElementById('lightboxImg').src = src; openModal('imageLightbox'); }
+    
+    // ВІДКРИТТЯ ФОТО
+    function openImage(src) { 
+        document.getElementById('lightboxImg').src = src; 
+        openModal('imageLightbox'); 
+    }
 
     function openCart() {
         const list = document.getElementById('cart-items-list');
@@ -394,6 +411,7 @@
         const shipping = document.getElementById('shipping-method').value;
         const city = document.getElementById('client-city').value.trim();
         const address = document.getElementById('client-address').value.trim();
+        const payment = document.getElementById('payment-method').value;
         const total = document.getElementById('cart-total-sum').innerText;
         const submitBtn = document.getElementById('submit-order-btn');
 
@@ -406,7 +424,9 @@
             return;
         }
 
-        let details = `Замовник: ${name}\nТел: ${phone}\nДоставка: ${shipping}\nМісто: ${city}\nВідділення/Адреса: ${address}\n\nТовари:\n`;
+        let statusForEmail = (payment === "LiqPay") ? "Очікує онлайн оплати" : "Післяплата (на пошті)";
+
+        let details = `Замовник: ${name}\nТел: ${phone}\nДоставка: ${shipping}\nМісто: ${city}\nВідділення/Адреса: ${address}\nСпосіб оплати: ${payment}\nСтатус: ${statusForEmail}\n\nТовари:\n`;
         cart.forEach(i => details += `• ${i.name} — ${i.qty}шт. (${i.price * i.qty} грн)\n`);
         
         emailjs.send("service_2xxpqzw", "template_dkcry58", {
@@ -414,7 +434,12 @@
         }).then(() => { 
             gtag('event', 'purchase', { 'value': parseFloat(total), 'currency': 'UAH' });
             recordOrder();
-            cart = []; updateCartUI(); closeModal('cartModal'); openModal('successModal');
+
+            if (payment === "LiqPay") {
+                window.location.href = "https://www.liqpay.ua/p/ваш_id_сторінки_оплати"; 
+            } else {
+                cart = []; updateCartUI(); closeModal('cartModal'); openModal('successModal');
+            }
         }).catch(() => showPopup("Помилка відправки!", submitBtn, true));
     }
 
@@ -475,7 +500,7 @@
         sCont.innerHTML += createCard('Images/snasti/rezinka.jpg', 'Резинка рибальська 20м (Ø 3мм)', 70, null, 0, `Резинка рибальська. Довжина: 20м. діаметр Ø : 3мм. Розтягується до 60м. Колір: зелений. тел.:+38(097)3348667, +38(093)2181263${emailInfo}`);
         
         updateCartUI();
-        setInterval(checkRateLimit, 30000); // Оновлення статусу кнопки щопівхвилини
+        setInterval(checkRateLimit, 30000);
     };
 </script>
 </body>
