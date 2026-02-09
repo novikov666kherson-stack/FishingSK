@@ -116,10 +116,10 @@
             .sidebar { 
                 width: 100%; 
                 min-width: 0; 
-                position: fixed; /* ЗАМІНЕНО НА FIXED ДЛЯ ГАРАНТОВАНОГО СКРОЛУ РАЗОМ ЗІ СТОРІНКОЮ */
+                position: fixed; 
                 top: 0; 
                 left: 0;
-                z-index: 1000; 
+                z-index: 1100; /* ПІДНЯТО Z-INDEX, ЩОБ МЕНЮ НЕ ХОВАЛОСЯ ПІД ШАПКУ */
                 padding: 5px !important; 
                 background: rgba(255, 255, 255, 0.98); 
                 border-radius: 0 0 10px 10px; 
@@ -132,7 +132,7 @@
             .sidebar ul li { margin: 0; background: #e9ecef; padding: 6px 2px; border-radius: 5px; text-align: center; border: 1px solid #ddd; }
             .sidebar ul li a { font-size: 9px; text-decoration: none; color: #000; display: block; font-weight: bold; line-height: 1.1; }
 
-            .content-section { padding-top: 80px; } /* ВІДСТУП ДЛЯ КОНТЕНТУ ЧЕРЕЗ FIXED МЕНЮ */
+            .content-section { padding-top: 80px; } 
             .main-title { font-size: 18px; padding: 6px 20px; margin-bottom: 15px; }
             .category-header { font-size: 14px; padding: 10px; margin: 30px 0 15px 0; }
             
