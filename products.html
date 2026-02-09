@@ -51,7 +51,6 @@
         .main-title { background: white; color: #1a1a1a; display: inline-block; padding: 8px 30px; border-radius: 12px; font-weight: bold; font-size: 22px; margin-bottom: 25px; }
         .category-header { background: #000000; color: white; padding: 12px; border-radius: 10px; margin: 50px 0 20px 0; font-size: 18px; font-weight: bold; text-transform: uppercase; width: 100%; box-sizing: border-box; scroll-margin-top: 180px; }
         
-        /* СТИЛЬ ДЛЯ СЕО ОПИСУ НА ПРОЗОРО-ЧОРНОМУ ФОНІ */
         .seo-text-visible { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px); color: #ffffff; padding: 25px; border-radius: 15px; margin-bottom: 25px; text-align: left; line-height: 1.6; border: 1px solid rgba(255, 255, 255, 0.2); }
         .seo-text-visible h1 { font-size: 24px; margin-top: 0; color: #e67e22; }
 
@@ -114,12 +113,12 @@
 
             .main-layout { flex-direction: column; padding: 10px; gap: 15px; }
             
-            /* ВИПРАВЛЕННЯ: меню зафіксоване, але тепер має обмеження висоти, щоб усі пункти влізли */
-            .sidebar { width: 100%; min-width: 0; position: sticky; top: 0; z-index: 1000; padding: 10px; background: rgba(255, 255, 255, 0.95); border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); box-sizing: border-box; max-height: 90vh; overflow-y: auto; }
+            /* ВИПРАВЛЕННЯ: меню триколонкове для кращого вміщення всіх пунктів */
+            .sidebar { width: 100%; min-width: 0; position: sticky; top: 0; z-index: 1000; padding: 8px; background: rgba(255, 255, 255, 0.98); border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); box-sizing: border-box; }
             .sidebar h3, .btn-review-sidebar { display: none; } 
-            .sidebar ul { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-            .sidebar ul li { margin: 0; background: #f1f1f1; padding: 8px 5px; border-radius: 8px; text-align: center; }
-            .sidebar ul li a { font-size: 11px; text-decoration: none; color: #333; display: block; }
+            .sidebar ul { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; }
+            .sidebar ul li { margin: 0; background: #e9ecef; padding: 6px 2px; border-radius: 5px; text-align: center; border: 1px solid #ddd; }
+            .sidebar ul li a { font-size: 10px; text-decoration: none; color: #000; display: block; font-weight: bold; line-height: 1.1; }
 
             .content-section { padding: 0; }
             .main-title { font-size: 18px; padding: 6px 20px; margin-bottom: 15px; }
@@ -157,12 +156,12 @@
     <aside class="sidebar">
         <h3>Навігація:</h3>
         <ul>
-            <li><a href="#w80">📦 Технопланктон 80г</a></li>
-            <li><a href="#w110">📦 Технопланктон 110г</a></li>
-            <li><a href="#w140">📦 Технопланктон 140г</a></li>
-            <li><a href="#geizer">📦 Технопланктон Гейзер</a></li>
+            <li><a href="#w80">📦 80г</a></li>
+            <li><a href="#w110">📦 110г</a></li>
+            <li><a href="#w140">📦 140г</a></li>
+            <li><a href="#geizer">📦 Гейзер</a></li>
             <li><a href="#makuha">📦 Макуха</a></li>
-            <li><a href="#kasha">📦 Прикормки</a></li>
+            <li><a href="#kasha">📦 Каші</a></li>
             <li><a href="#poplavki">📦 Поплавці</a></li>
             <li><a href="#snasti">📦 Снасті</a></li>
         </ul>
