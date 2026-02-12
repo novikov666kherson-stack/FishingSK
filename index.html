@@ -47,7 +47,7 @@
 
         .logo { font-size: 20px; font-weight: bold; }
 
-        nav { display: flex; align-items: center; gap: 20px; }
+        nav { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; justify-content: center; }
         nav a {
             color: white;
             text-decoration: none;
@@ -190,8 +190,9 @@
             .mobile-only { display: flex; }
             .hero-title { font-size: 24px; }
             .logo { font-size: 18px; }
-            header { padding: 10px 15px; }
-            nav { gap: 10px; }
+            header { padding: 10px 15px; flex-direction: column; gap: 10px; }
+            nav { gap: 15px; width: 100%; justify-content: space-around; }
+            nav a { font-size: 12px; }
         }
 
         .modal-bg {
@@ -258,7 +259,7 @@
     <header>
         <div class="logo">Технопланктон SK</div>
         <nav>
-            <a href="products.html"><img src="E:\My-Site\vsitovari(catalog).png" class="nav-icon">Усі товари</a>
+            <a href="products.html"><img src="vsitovari(catalog).png" class="nav-icon">Усі товари</a>
             <a href="galery.html"><img src="galerybutton.png" class="nav-icon">Галерея</a>
             <a href="vidguk.html"><img src="otzivi.png" class="nav-icon">Відгуки</a>
             <a onclick="openModal('contactModal')"><img src="contacts.png" class="nav-icon">Контакти</a>
@@ -295,35 +296,35 @@
 
         <div class="categories-grid">
             <a href="products.html#cat-80" class="category-card">
-                <img src="E:\My-Site\Images\80g\pryajenka.jpg" alt="Технопланктон 80г">
+                <img src="Images/80g/pryajenka.jpg" alt="Технопланктон 80г">
                 <span>📦 Технопланктон 80г</span>
             </a>
             <a href="products.html#cat-110" class="category-card">
-                <img src="E:\My-Site\Images\110g\grusha.jpg" alt="Технопланктон 110г">
+                <img src="Images/110g/grusha.jpg" alt="Технопланктон 110г">
                 <span>📦 Технопланктон 110г</span>
             </a>
             <a href="products.html#cat-140" class="category-card">
-                <img src="E:\My-Site\Images\140g\med.jpg" alt="Технопланктон 140г">
+                <img src="Images/140g/med.jpg" alt="Технопланктон 140г">
                 <span>📦 Технопланктон 140г</span>
             </a>
             <a href="products.html#geizer" class="category-card">
-                <img src="E:\My-Site\Images\geizer\geizer.jpg" alt="Гейзер">
+                <img src="Images/geizer/geizer.jpg" alt="Гейзер">
                 <span>📦 Гейзер</span>
             </a>
             <a href="products.html#makuha" class="category-card">
-                <img src="E:\My-Site\Images\makuha\6p.jpg" alt="Макуха">
+                <img src="Images/makuha/6p.jpg" alt="Макуха">
                 <span>📦 Макуха</span>
             </a>
             <a href="products.html#kasha" class="category-card">
-                <img src="E:\My-Site\Images\kasha\kasha.jpg" alt="Каші">
+                <img src="Images/kasha/kasha.jpg" alt="Каші">
                 <span>📦 Каші</span>
             </a>
             <a href="products.html#poplavki" class="category-card">
-                <img src="E:\My-Site\Images\poplavki\poplav.jpg" alt="Поплавці">
+                <img src="Images/poplavki/poplav.jpg" alt="Поплавці">
                 <span>📦 Поплавці</span>
             </a>
             <a href="products.html#snasti" class="category-card">
-                <img src="E:\My-Site\Images\snasti\volos2.jpg" alt="Снасті">
+                <img src="Images/snasti/volos2.jpg" alt="Снасті">
                 <span>📦 Снасті</span>
             </a>
         </div>
@@ -469,7 +470,10 @@
         }
 
         function updateCartUI() { 
-            document.getElementById('cart-count').innerText = cart.reduce((acc, i) => acc + i.qty, 0);
+            const cartCountElement = document.getElementById('cart-count');
+            if (cartCountElement) {
+                cartCountElement.innerText = cart.reduce((acc, i) => acc + i.qty, 0);
+            }
             localStorage.setItem('fishingCart', JSON.stringify(cart)); 
         }
 
