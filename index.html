@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" type="image/png" href="logo.png">
-    <title>Технопланктон SK</title>
+    <link rel="icon" type="image/png" href="logo.png">
     
+    <title>Технопланктон SK — Купити прикормку на товстолоба від Олега Карпова</title>
+    <meta name="description" content="Офіційний сайт Технопланктон SK від Олега Карпова. Найкраща прикормка для товстолоба, снасті, каші та поплавці з доставкою з Миколаєва по всій Україні.">
+    <meta name="keywords" content="технопланктон SK, купити технопланктон, Олег Карпов, прикормка для товстолоба, риболовля Миколаїв, технопланктон Миколаїв, технопланктон Николаев, купить технопланктон Николаев, купити технопланктон Миколаїв, технопланктон від Олега Карпова, технопланктон от Олега Карпова, снасті, каші, приманки, прикормки, прикорми, рыбалка толстолоб, рибалка товстолоб, поплавці, поплавець, ліска риболовна">
+
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
         (function() { emailjs.init("EIuYN1VMmFHd5X94Y"); })();
@@ -49,15 +52,24 @@
 
         /* КНОПКА КОНТАКТІВ */
         .contact-buttons { margin-top: 20px; display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
-        .btn-contact { display: flex; align-items: center; gap: 10px; padding: 10px 20px; border-radius: 10px; text-decoration: none; color: white; font-weight: bold; transition: 0.3s; font-size: 16px; }
+        .btn-contact { display: flex; align-items: center; gap: 10px; padding: 10px 20px; border-radius: 10px; text-decoration: none; color: white; font-weight: bold; transition: 0.3s; font-size: 16px; border: none; cursor: pointer; }
         .viber { background: #7360f2; }
         .telegram { background: #0088cc; }
+        .all-contacts-btn { background: #2c3e50; }
         .btn-contact img { width: 25px; height: 25px; }
 
         /* МОДАЛЬНІ ВІКНА */
         .modal-bg { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; padding: 10px; box-sizing: border-box; }
         .modal-content { background: white; padding: 25px; border-radius: 20px; width: 100%; max-width: 500px; text-align: center; color: #333; position: relative; max-height: 90vh; overflow-y: auto; }
         
+        /* КОНТАКТНЕ ВІКНО */
+        .contact-modal-line { display: flex; align-items: center; gap: 15px; margin: 15px 0; font-size: 18px; text-decoration: none; color: #333; transition: 0.3s; padding: 10px; border-radius: 10px; text-align: left; }
+        .contact-modal-line:hover { background: #f0f0f0; color: #e67e22; }
+        .contact-modal-line div { display: flex; flex-direction: column; width: 100%; }
+        .contact-modal-line span.label { font-size: 14px; color: #666; font-weight: bold; }
+        .contact-inline-icons { display: inline-flex; align-items: center; gap: 5px; margin-left: 5px; vertical-align: middle; }
+        .contact-inline-icons img { width: 22px !important; height: 22px !important; border-radius: 4px; }
+
         /* СТИЛІ КОШИКА */
         .shipping-info-banner { background: #fff3cd; color: #856404; padding: 12px; border-radius: 10px; font-size: 13px; line-height: 1.4; border: 1px solid #ffeeba; margin-bottom: 15px; text-align: left; }
         .shipping-icon-mini { height: 18px; vertical-align: middle; margin: 0 3px; }
@@ -74,10 +86,16 @@
         .btn-submit-order { background: #000; color: white; font-size: 16px; margin-top: 10px; padding: 15px; border: 1px solid #fff; border-radius: 8px; width: 100%; font-weight: bold; cursor: pointer; }
         .star-red { color: red; font-weight: bold; }
 
+        /* Мобільні виклики (приховано на ПК) */
+        .mobile-only { display: none; }
+        .desktop-only { display: flex; }
+
         @media (max-width: 768px) {
             header { padding: 15px 20px; justify-content: center; gap: 15px; }
             .hero h1 { font-size: 32px; }
             nav { gap: 10px; }
+            .mobile-only { display: flex; }
+            .desktop-only { display: none; }
         }
     </style>
 </head>
@@ -86,7 +104,7 @@
     <header>
         <div class="logo">Технопланктон SK</div>
         <nav>
-            <a href="products.html">Товари</a>
+            <a href="products.html">Усі товари</a>
             <a href="galery.html">Галерея</a>
             <a onclick="openModal('contactModal')">Контакти</a>
             <div class="cart-btn-header" onclick="openCart()">🛒 Кошик <span id="cart-count">0</span></div>
@@ -105,6 +123,14 @@
             <a href="https://t.me/+380932181263" class="btn-contact telegram">
                 <img src="Images/telegram.jpg" alt="Telegram"> Написати у Telegram
             </a>
+            
+            <button onclick="openModal('contactModal')" class="btn-contact all-contacts-btn desktop-only">
+                📞 Дивитись усі контакти
+            </button>
+            
+            <button onclick="mobileCallPicker()" class="btn-contact all-contacts-btn mobile-only">
+                📞 Подзвонити нам
+            </button>
         </div>
     </section>
 
@@ -227,11 +253,40 @@
     <div id="contactModal" class="modal-bg" onclick="handleBgClick(event)">
         <div class="modal-content">
             <span style="position:absolute; right:15px; top:10px; cursor:pointer; font-size:24px;" onclick="closeModal('contactModal')">&times;</span>
-            <h2>Контакти</h2>
-            <p><strong>Київстар:</strong> +38 (097) 334-86-67</p>
-            <p><strong>Lifecell:</strong> +38 (093) 218-12-63</p>
-            <p><strong>E-mail:</strong> olegkarpov078@gmail.com</p>
-            <p><strong>Адреса:</strong> Україна, Миколаївська обл.</p>
+            <h2 style="margin-bottom: 20px; color: #e67e22;">📞 Контакти продавця</h2>
+            
+            <a href="tel:+380973348667" class="contact-modal-line">
+                <div>
+                    <span class="label">Київстар:</span>
+                    <span>+38 (097) 334-86-67 📞</span>
+                </div>
+            </a>
+            
+            <a href="tel:+380932181263" class="contact-modal-line">
+                <div>
+                    <span class="label">Lifecell:</span>
+                    <span>+38 (093) 218-12-63 📞
+                        <span class="contact-inline-icons">
+                            <img src="Images/viber.png" alt="Viber">
+                            <img src="Images/telegram.jpg" alt="Telegram">
+                        </span>
+                    </span>
+                </div>
+            </a>
+            
+            <a href="mailto:olegkarpov078@gmail.com" class="contact-modal-line">
+                <div>
+                    <span class="label">E-mail:</span>
+                    <span>olegkarpov078@gmail.com</span>
+                </div>
+            </a>
+            
+            <div class="contact-modal-line" style="cursor: default; hover:none;">
+                <div>
+                    <span class="label">Адреса:</span>
+                    <span>Україна, Миколаївська обл.</span>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -335,6 +390,12 @@
             }, (error) => {
                 alert("Помилка при відправці: " + JSON.stringify(error));
             });
+        }
+
+        function mobileCallPicker() {
+            const num = confirm("Зателефонувати на Київстар (+380973348667)?\nНатисніть 'Скасувати' для Lifecell (+380932181263)");
+            if(num) window.location.href = "tel:+380973348667";
+            else window.location.href = "tel:+380932181263";
         }
 
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
