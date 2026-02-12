@@ -558,16 +558,27 @@
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         function handleBgClick(e) { if (e.target.classList.contains('modal-bg')) closeModal(e.target.id); }
 
-        // Додатковий скрипт для виправлення переходів на мобільних
-        document.addEventListener("DOMContentLoaded", function() {
+        // Покращене виправлення переходів для мобільних
+        document.addEventListener("click", function(e) {
+            const target = e.target.closest("a");
+            if (target && target.getAttribute("href") && target.getAttribute("href").includes("#")) {
+                const href = target.getAttribute("href");
+                if (href.startsWith("products.html#")) {
+                    e.preventDefault();
+                    window.location.href = href;
+                }
+            }
+        });
+
+        window.addEventListener("load", function() {
             if (window.location.hash) {
                 setTimeout(function() {
                     const id = window.location.hash.substring(1);
                     const element = document.getElementById(id);
                     if (element) {
-                        element.scrollIntoView({ behavior: 'smooth' });
+                        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }
-                }, 500);
+                }, 800);
             }
         });
     </script>
