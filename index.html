@@ -557,6 +557,19 @@
         }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         function handleBgClick(e) { if (e.target.classList.contains('modal-bg')) closeModal(e.target.id); }
+
+        // Додатковий скрипт для виправлення переходів на мобільних
+        document.addEventListener("DOMContentLoaded", function() {
+            if (window.location.hash) {
+                setTimeout(function() {
+                    const id = window.location.hash.substring(1);
+                    const element = document.getElementById(id);
+                    if (element) {
+                        element.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }, 500);
+            }
+        });
     </script>
 </body>
 </html>
