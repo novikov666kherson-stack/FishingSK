@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Указываем путь к главной странице
+Host: https://technoplankton-sk.github.io/FishingSK/index.html
