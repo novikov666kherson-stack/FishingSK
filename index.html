@@ -211,7 +211,7 @@
         .contact-label { width: 90px; text-align: left; font-weight: bold; }
         .messenger-icon { width: 26px; height: 26px; vertical-align: middle; margin-left: 8px; cursor: pointer; }
 
-        /* КЛОНОВАНІ СТИЛІ КОШИКА З PRODUCTS.HTML */
+        /* КЛОНОВАНІ СТИЛІ КОШИКА ТА TOAST ПОВІДОМЛЕНЬ */
         .shipping-info-banner { background: #fff3cd; color: #856404; padding: 12px; border-radius: 10px; font-size: 13px; line-height: 1.4; border: 1px solid #ffeeba; margin-bottom: 15px; text-align: left; }
         .shipping-icon-mini { height: 18px; vertical-align: middle; margin: 0 3px; }
         .refund-policy-container { text-align: left; margin-bottom: 15px; background: #fdfdfd; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; }
@@ -230,7 +230,8 @@
         .star-red { color: red; font-weight: bold; }
         .btn-submit-order { background: #000000; color: white; font-size: 16px; margin-top: 10px; padding: 15px; border: 1px solid #fff; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.2s; }
         .btn-submit-order:disabled { background: #7f8c8d; cursor: not-allowed; }
-        .toast-msg { position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: #27ae60; padding: 8px 15px; border-radius: 10px; font-size: 13px; font-weight: bold; z-index: 3000; box-shadow: 0 4px 15px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 10px; border: 1px solid #27ae60; pointer-events: none; width: max-content; }
+        .toast-msg { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: white; padding: 12px 25px; border-radius: 12px; font-size: 14px; font-weight: bold; z-index: 9999; box-shadow: 0 5px 20px rgba(0,0,0,0.6); display: flex; align-items: center; gap: 10px; border: 1px solid #333; animation: slideUp 0.3s ease-out; }
+        @keyframes slideUp { from { transform: translate(-50%, 50px); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
     </style>
     
     <script type="application/ld+json">
@@ -421,8 +422,19 @@
     </div>
 
     <script>
-        // КЛОНОВАНІ СКРИПТИ КОШИКА З PRODUCTS.HTML
         let cart = JSON.parse(localStorage.getItem('fishingCart')) || [];
+
+        function showToast(msg, color = "#27ae60") {
+            const oldToast = document.querySelector('.toast-msg');
+            if (oldToast) oldToast.remove();
+            const toast = document.createElement('div');
+            toast.className = 'toast-msg';
+            toast.style.borderColor = color;
+            toast.style.color = color;
+            toast.innerHTML = `<span>${msg}</span>`;
+            document.body.appendChild(toast);
+            setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 500); }, 3000);
+        }
 
         function checkRateLimit() {
             const now = Date.now();
@@ -470,33 +482,40 @@
             }
         }
 
-        function removeFromCart(name) { cart = cart.filter(item => item.name !== name); updateCartUI(); openCart(); }
+        function removeFromCart(name) { 
+            cart = cart.filter(item => item.name !== name); 
+            updateCartUI(); 
+            openCart();
+            showToast("Товар видалено", "#e67e22");
+        }
         
         function clearCart() { 
+            if (cart.length === 0) return;
             cart = [];
             updateCartUI(); 
             openCart();
             closeModal('cartModal');
+            showToast("Кошик очищено", "#c0392b");
         }
 
         function openCart() {
             const list = document.getElementById('cart-items-list');
             const ctrl = document.getElementById('cart-controls');
             let total = 0;
-            if (cart.length === 0) { list.innerHTML = '<p>Кошик порожній</p>'; ctrl.style.display = 'none'; }
+            if (cart.length === 0) { list.innerHTML = '<p style="color:#666; padding:20px;">Кошик порожній</p>'; ctrl.style.display = 'none'; }
             else {
                 list.innerHTML = '';
                 ctrl.style.display = 'block';
                 cart.forEach(item => { 
                     total += item.price * item.qty; 
                     list.innerHTML += `<div class="cart-item">
-                        <div style="flex:1; text-align:left;"><b>${item.name}</b><br>${item.price} грн/шт</div>
+                        <div style="flex:1; text-align:left; color:#333;"><b>${item.name}</b><br><span style="color:#666;">${item.price} грн/шт</span></div>
                         <div class="qty-controls">
                             <button class="qty-btn" onclick="changeQty('${item.name.replace(/'/g, "\\'")}', -1)">-</button>
-                            <span>${item.qty}</span>
+                            <span style="color:#000; font-weight:bold; min-width:20px; text-align:center;">${item.qty}</span>
                             <button class="qty-btn" onclick="changeQty('${item.name.replace(/'/g, "\\'")}', 1)">+</button>
                         </div>
-                        <b>${item.price * item.qty} грн</b>
+                        <b style="color:#000; min-width:60px; text-align:right;">${item.price * item.qty} грн</b>
                         <span class="remove-item" onclick="removeFromCart('${item.name.replace(/'/g, "\\'")}')">✖</span>
                     </div>`; 
                 });
@@ -513,14 +532,15 @@
             const city = document.getElementById('client-city').value.trim();
             const address = document.getElementById('client-address').value.trim();
             const payment = document.getElementById('payment-method').value;
-            const total = document.getElementById('cart-total-sum').innerText;
+            const total = parseInt(document.getElementById('cart-total-sum').innerText);
 
+            if (cart.length === 0) { showToast("Кошик порожній!", "#c0392b"); return; }
             if (!name || phone.length < 13 || !shipping || !city || !address) {
-                alert("Заповніть усі обов'язкові поля!");
+                showToast("Заповніть усі обов'язкові поля!", "#e67e22");
                 return;
             }
-            if (parseInt(total) < 400) {
-                alert("Мінімальне замовлення 400 грн!");
+            if (total < 400) {
+                showToast("Мінімальне замовлення 400 грн!", "#c0392b");
                 return;
             }
 
@@ -533,7 +553,7 @@
                 recordOrder();
                 cart = []; updateCartUI(); closeModal('cartModal'); 
                 openModal('successOrderModal');
-            }).catch(() => alert("Помилка відправки!"));
+            }).catch(() => showToast("Помилка відправки!", "#c0392b"));
         }
 
         window.onload = updateCartUI;
