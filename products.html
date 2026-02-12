@@ -32,9 +32,12 @@
         header { display: flex; justify-content: space-between; align-items: center; padding: 15px 50px; background: #000000; box-shadow: 0 2px 5px rgba(0,0,0,0.5); position: sticky; top: 0; z-index: 1001; }
         .logo { font-size: 20px; font-weight: bold; }
         nav { display: flex; align-items: center; gap: 20px; }
-        nav a { color: white; text-decoration: none; cursor: pointer; font-size: 14px; font-weight: bold; transition: 0.3s; }
+        nav a { color: white; text-decoration: none; cursor: pointer; font-size: 14px; font-weight: bold; transition: 0.3s; display: flex; align-items: center; }
         nav a:hover { color: #e67e22; }
         
+        /* Стиль для іконок в меню */
+        .nav-icon { width: 18px; height: 18px; margin-right: 6px; vertical-align: middle; }
+
         .cart-btn-header { background: #e67e22; padding: 8px 15px; border-radius: 10px; font-weight: bold; cursor: pointer; display: flex; align-items: center; transition: 0.3s; }
         #cart-count { background: #c0392b; color: white; border-radius: 50%; padding: 2px 7px; font-size: 12px; margin-left: 8px; }
         
@@ -159,16 +162,17 @@
             .min-order-info { font-size: 9px; padding-top: 4px; }
             .btn-buy, .btn-desc, .btn-contact-item { padding: 8px; font-size: 11px; }
 
-            /* Стиль для нової кнопки Відгуки в мобільному меню */
+            /* Стиль для кнопки Відгуки в мобільному меню - Чорний фон */
             .mobile-only-review {
-                background: #34495e;
+                background: #000000;
                 color: white;
                 padding: 6px 12px;
                 border-radius: 10px;
                 font-size: 12px;
                 font-weight: bold;
                 text-decoration: none;
-                display: block;
+                display: flex;
+                align-items: center;
             }
         }
 
@@ -185,10 +189,10 @@
 <header id="mainHeader">
     <div class="logo">Технопланктон SK</div>
     <nav>
-        <a href="index.html">Головна</a>
-        <a href="galery.html">Галерея</a> 
-        <a onclick="openModal('contactModal')">Контакти</a>
-        <a href="vidguk.html" class="mobile-only-review">Відгуки</a>
+        <a href="index.html"><img src="My-Site/home-button_5974636.png" class="nav-icon">Головна</a>
+        <a href="galery.html"><img src="My-Site/home-button_5974636.png" class="nav-icon">Галерея</a> 
+        <a onclick="openModal('contactModal')"><img src="My-Site/contacts.png" class="nav-icon">Контакти</a>
+        <a href="vidguk.html" class="mobile-only-review"><img src="My-Site/otzivi.png" class="nav-icon">Відгуки</a>
         <div class="cart-btn-header" onclick="openCart()">🛒 Кошик <span id="cart-count">0</span></div>
     </nav>
 </header>
