@@ -50,12 +50,13 @@
         .product-card img { width: 100%; height: 180px; object-fit: contain; background: rgba(255,255,255,0.05); padding: 10px; box-sizing: border-box; }
         .product-card h3 { font-size: 18px; margin: 15px 10px; height: 45px; display: flex; align-items: center; justify-content: center; color: #e67e22; }
 
-        /* КНОПКА КОНТАКТІВ */
-        .contact-buttons { margin-top: 20px; display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
-        .btn-contact { display: flex; align-items: center; gap: 10px; padding: 10px 20px; border-radius: 10px; text-decoration: none; color: white; font-weight: bold; transition: 0.3s; font-size: 16px; border: none; cursor: pointer; }
+        /* КНОПКИ КОНТАКТІВ */
+        .contact-buttons { margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; max-width: 600px; width: 100%; }
+        .btn-contact { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 20px; border-radius: 10px; text-decoration: none; color: white; font-weight: bold; transition: 0.3s; font-size: 16px; border: none; cursor: pointer; height: 50px; box-sizing: border-box; }
         .viber { background: #7360f2; }
         .telegram { background: #0088cc; }
         .all-contacts-btn { background: #2c3e50; }
+        .email-btn { background: #e74c3c; }
         .btn-contact img { width: 25px; height: 25px; }
 
         /* МОДАЛЬНІ ВІКНА */
@@ -94,6 +95,7 @@
             header { padding: 15px 20px; justify-content: center; gap: 15px; }
             .hero h1 { font-size: 32px; }
             nav { gap: 10px; }
+            .contact-buttons { grid-template-columns: 1fr; max-width: 300px; }
             .mobile-only { display: flex; }
             .desktop-only { display: none; }
         }
@@ -112,9 +114,9 @@
     </header>
 
     <section class="hero">
-        <h1>Якісний Технопланктон SK</h1>
+        <h1>Якісний технопланктон, гейзер, макуха, каші, приманки, поплавці та снасті.</h1>
         <p>Оригінальна продукція від Олега Карпова. Висока ефективність, перевірена роками.</p>
-        <a href="products.html" class="btn-main">ПЕРЕЙТИ ДО КАТАЛОГУ</a>
+        <a href="products.html" class="btn-main" style="margin-bottom: 20px;">ПЕРЕЙТИ ДО КАТАЛОГУ</a>
 
         <div class="contact-buttons">
             <a href="viber://chat?number=%2B380932181263" class="btn-contact viber">
@@ -125,12 +127,18 @@
             </a>
             
             <button onclick="openModal('contactModal')" class="btn-contact all-contacts-btn desktop-only">
-                📞 Дивитись усі контакти
+                📞 Дивитись контакти
             </button>
-            
+            <a href="mailto:olegkarpov078@gmail.com" class="btn-contact email-btn desktop-only">
+                ✉️ Написати на пошту
+            </a>
+
             <button onclick="mobileCallPicker()" class="btn-contact all-contacts-btn mobile-only">
                 📞 Подзвонити нам
             </button>
+            <a href="mailto:olegkarpov078@gmail.com" class="btn-contact email-btn mobile-only">
+                ✉️ Написати на пошту
+            </a>
         </div>
     </section>
 
