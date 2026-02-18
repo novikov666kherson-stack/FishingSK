@@ -112,6 +112,9 @@
             max-width: 900px;
         }
 
+        /* Клас для заборони переносу на ПК */
+        .no-wrap-pc { white-space: nowrap; }
+
         .hero-buttons { 
             display: flex; 
             gap: 15px; 
@@ -204,6 +207,9 @@
             header { padding: 10px 15px; flex-direction: column; gap: 10px; }
             nav { gap: 15px; width: 100%; justify-content: space-around; }
             nav a { font-size: 12px; }
+            
+            /* На мобільних дозволяємо перенос тексту */
+            .no-wrap-pc { white-space: normal; }
         }
 
         .modal-bg {
@@ -326,7 +332,7 @@
     </header>
 
     <main class="hero-section">
-        <h1 class="hero-title"><span style="white-space: nowrap;">Якісний Технопланктон "Октябрьский" ( SK )</span>, гейзер, макуха, каші, приманки, поплавці та снасті в Миколаєві (Николаеве) та с доставкою по Україні.</h1>
+        <h1 class="hero-title"><span class="no-wrap-pc">Якісний Технопланктон "Октябрьский" ( SK )</span>, гейзер, макуха, каші, приманки, поплавці та снасті в Миколаєві (Николаеве) та с доставкою по Україні.</h1>
 <p style="font-size: 18px; margin-top: -10px; color: #f1c40f; font-weight: bold; text-shadow: 1px 1px 5px rgba(0,0,0,0.5);">
     Офіційний сайт Олега Карпова у Миколаєві. Купуючи тут, ви отримуєте товар безпосередньо з цеху.Краща прикормка в Миколаєві (Николаеве) з доставкою по всій Україні.
 </p>
@@ -452,7 +458,7 @@
     </div>
 
     <div id="contactModal" class="modal-bg" onclick="handleBgClick(event)">
-        <div class="modal-content" style="max-width: 420px;">
+        <div class="modal-content" style="max-width: 400px; padding: 25px;">
             <span style="position:absolute; right:15px; top:10px; cursor:pointer; font-size:24px;" onclick="closeModal('contactModal')">&times;</span>
             <h2>📞 Контакти продавця</h2>
             <div style="text-align: left;">
